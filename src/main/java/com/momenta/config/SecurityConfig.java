@@ -25,15 +25,17 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/users/register",
                                 "/api/users/login",
-                                "/h2-console/**"
+                                "/h2-console/**",
+                                "/api/qr/**" // 👈 HACER PÚBLICO EL ENDPOINT DEL QR
                         ).permitAll()
                         .requestMatchers("/api/orders/**").hasRole("CLIENT")
-                        .requestMatchers("/api/providers/**").hasRole("ADMIN") // ✅ LÍNEA CLAVE
+                        .requestMatchers("/api/providers/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
 
     @Bean

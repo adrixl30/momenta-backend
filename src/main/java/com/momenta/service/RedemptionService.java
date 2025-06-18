@@ -3,9 +3,8 @@ package com.momenta.service;
 import com.momenta.model.Redemption;
 import com.momenta.model.User;
 import com.momenta.repository.RedemptionRepository;
+import com.momenta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,7 +18,7 @@ public class RedemptionService {
     @Autowired
     private UserService userService;
 
-    public Redemption redeem(String code) {
+    public Redemption useCode(String code, String email) {
         Redemption redemption = redemptionRepository.findByCode(code)
                 .orElseThrow(() -> new IllegalArgumentException("Código no válido"));
 
@@ -32,14 +31,11 @@ public class RedemptionService {
             throw new IllegalStateException("El código ha expirado.");
         }
 
-        // 👤 Obtener el usuario autenticado
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); // el email es el username
         User user = (User) userService.loadUserByUsername(email);
 
         redemption.setUsed(true);
         redemption.setRedemptionDate(LocalDate.now());
-        redemption.setUser(user); // ✅ Asociar al usuario que canjeó
+        redemption.setUser(user);
 
         return redemptionRepository.save(redemption);
     }

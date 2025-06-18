@@ -22,3 +22,8 @@ The connection was not closed by the application and is garbage collected [90018
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 16 more
+2025-06-18 11:29:30.668427-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO REDEMPTION (CODE, EXPIRATION_DATE, REDEMPTION_DATE, USED, EXPERIENCE_ID, USER_ID, ORDER_ID)\000d\000aVALUES ('TEST123', DATEADD('DAY', 30, CURRENT_DATE), NULL, FALSE, 1, 1, [*]<id_de_orden>)"; se esperaba "DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "INSERT INTO REDEMPTION (CODE, EXPIRATION_DATE, REDEMPTION_DATE, USED, EXPERIENCE_ID, USER_ID, ORDER_ID)\000d\000aVALUES ('TEST123', DATEADD('DAY', 30, CURRENT_DATE), NULL, FALSE, 1, 1, [*]<id_de_orden>)"; expected "DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+INSERT INTO REDEMPTION (CODE, EXPIRATION_DATE, REDEMPTION_DATE, USED, EXPERIENCE_ID, USER_ID, ORDER_ID)
+VALUES ('TEST123', DATEADD('DAY', 30, CURRENT_DATE), NULL, FALSE, 1, 1, <id_de_orden>) [42001-232]

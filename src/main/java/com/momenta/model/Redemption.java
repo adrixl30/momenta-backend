@@ -13,14 +13,11 @@ import java.time.LocalDate;
 @Builder
 public class Redemption {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String code;
 
     private LocalDate redemptionDate;
@@ -30,5 +27,18 @@ public class Redemption {
     private LocalDate expirationDate;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     private Experience experience;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @PrePersist
+    protected void onRedeem() {
+        this.redemptionDate = LocalDate.now();
+    }
 }
