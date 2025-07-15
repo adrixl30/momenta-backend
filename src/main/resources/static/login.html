@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Momenta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      padding: 40px;
+      text-align: center;
+    }
+    .form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4BB543;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #status {
+      margin-top: 20px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form">
+  <h2>Iniciar sesión</h2>
+  <input type="email" id="email" placeholder="Correo">
+  <input type="password" id="password" placeholder="Contraseña">
+  <button onclick="login()">Entrar</button>
+  <div id="status"></div>
+</div>
+<script>
+  function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch("http://localhost:8080/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    })
+    .then(res => {
+      if (!res.ok) throw res;
+      return res.json();
+    })
+    .then(data => {
+      localStorage.setItem("jwt_token", data.token);
+      console.log("✅ TOKEN GUARDADO:", data.token); // 👈 mostrará el token
+      document.getElementById("status").style.color = "green";
+      document.getElementById("status").innerText = "✅ Login exitoso. Redirigiendo...";
+      setTimeout(() => {
+        window.location.href = "canjear.html?code=54604F74";
+      }, 1000);
+    })
+    .catch(async err => {
+      const res = await err.json();
+      document.getElementById("status").innerText = res.message || "Login fallido.";
+    });
+  }
+</script>
+
+</body>
+</html>

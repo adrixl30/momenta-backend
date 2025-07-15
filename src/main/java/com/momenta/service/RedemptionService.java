@@ -1,9 +1,9 @@
 package com.momenta.service;
 
+import com.momenta.dto.RedemptionResponseDTO;
 import com.momenta.model.Redemption;
 import com.momenta.model.User;
 import com.momenta.repository.RedemptionRepository;
-import com.momenta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class RedemptionService {
     @Autowired
     private UserService userService;
 
-    public Redemption useCode(String code, String email) {
+    public RedemptionResponseDTO useCode(String code, String email) {
         Redemption redemption = redemptionRepository.findByCode(code)
                 .orElseThrow(() -> new IllegalArgumentException("Código no válido"));
 
@@ -37,6 +37,16 @@ public class RedemptionService {
         redemption.setRedemptionDate(LocalDate.now());
         redemption.setUser(user);
 
-        return redemptionRepository.save(redemption);
+        redemptionRepository.save(redemption);
+
+        return new RedemptionResponseDTO(
+                redemption.getExperience().getTitle(),
+                redemption.getExperience().getCity(),
+                redemption.getExperience().getProvider().getName(),
+                redemption.getExperience().getProvider().getContact(),
+                redemption.getExperience().getProvider().getConditions(),
+                redemption.getExpirationDate(),
+                redemption.getExperience().isOnlineReservation()
+        );
     }
 }

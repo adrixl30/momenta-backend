@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Canjea tu regalo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        #experienceOptions {
+            margin-top: 20px;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h1>Canjea tu regalo 🎁</h1>
+<p id="giftMessage">Cargando información del regalo...</p>
+
+<div id="experienceOptions" style="display:none;">
+    <label for="experienceSelect">Selecciona una experiencia:</label><br><br>
+    <select id="experienceSelect"></select><br><br>
+    <button onclick="redeem()">✅ Canjear experiencia</button>
+</div>
+
+<script>
+    const code = new URLSearchParams(window.location.search).get("code");
+
+    async function fetchGift() {
+        const res = await fetch(`/api/gift-messages/${code}`);
+        const data = await res.json();
+        document.getElementById("giftMessage").innerText =
+            `Hola ${data.toName}, este es tu regalo de ${data.fromName}: ${data.message}`;
+
+        // Aquí podrías mostrar experiencia si ya está asignada...
+        // Pero en este ejemplo mostramos lista para seleccionar una
+        document.getElementById("experienceOptions").style.display = "block";
+
+        // Simulamos experiencias disponibles
+        const experiences = [
+            { id: 1, name: "Cena romántica" },
+            { id: 2, name: "Día de spa" },
+            { id: 3, name: "Escape room para dos" }
+        ];
+        const select = document.getElementById("experienceSelect");
+        experiences.forEach(e => {
+            const opt = document.createElement("option");
+            opt.value = e.id;
+            opt.innerText = e.name;
+            select.appendChild(opt);
+        });
+    }
+
+    async function redeem() {
+        const selectedId = document.getElementById("experienceSelect").value;
+        const res = await fetch(`/api/redemption/${code}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ experienceId: selectedId })
+        });
+        if (res.ok) {
+            alert("¡Experiencia canjeada con éxito!");
+            location.href = `/experience-detail.html?code=${code}`;
+        } else {
+            alert("Error al canjear experiencia.");
+        }
+    }
+
+    fetchGift();
+</script>
+</body>
+</html>

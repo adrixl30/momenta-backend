@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Regalo</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+          background: #fefefe;
+          padding: 40px;
+        }
+        img {
+          width: 200px;
+          margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<h1>¡Hola, María! 🎉</h1>
+<p>Adrián te dejó este mensaje:</p>
+<blockquote>Feliz cumpleaños, espero que disfrutes esta experiencia única 🥳</blockquote>
+<img src="https://i.imgur.com/7D7I6dI.jpeg" alt="Imagen de regalo">
+<div style="margin-top: 30px;">
+    <button onclick="verExperiencia()" style="padding: 10px 20px; border-radius: 8px; background-color: #007BFF; color: white; border: none; font-size: 16px;">
+        🎁 Ver experiencia
+    </button>
+
+    <button onclick="canjearRegalo()" style="padding: 10px 20px; margin-left: 10px; border-radius: 8px; background-color: #28A745; color: white; border: none; font-size: 16px;">
+        🔁 Canjear regalo
+    </button>
+</div>
+<script>
+    // Función para obtener parámetros de la URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    const code = getQueryParam("code");
+
+    function verExperiencia() {
+        if (code) {
+            window.location.href = `/experience-detail.html?code=${code}`;
+        } else {
+            alert("Código de regalo no encontrado.");
+        }
+    }
+
+    function canjearRegalo() {
+        if (code) {
+            window.location.href = `/redeem.html?code=${code}`;
+        } else {
+            alert("Código de regalo no encontrado.");
+        }
+    }
+</script>
+
+</body>
+</html>

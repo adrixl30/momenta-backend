@@ -23,11 +23,24 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/canjear.html",
+                                "/success-redemption.html",
+                                "/gift-message.html",
+                                "/experience-detail.html",
+                                "/redeem.html",
+                                "/login.html",
                                 "/api/users/register",
                                 "/api/users/login",
                                 "/h2-console/**",
-                                "/api/qr/**" // 👈 HACER PÚBLICO EL ENDPOINT DEL QR
+                                "/api/qr/**",
+                                "/api/gifts/**",
+                                "/api/redemption/**",
+                                "/css/**", "/js/**", "/images/**"
                         ).permitAll()
+
+
                         .requestMatchers("/api/orders/**").hasRole("CLIENT")
                         .requestMatchers("/api/providers/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

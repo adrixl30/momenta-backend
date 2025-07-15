@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Canje exitoso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #f6fafd, #ffffff);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 520px;
+        margin: 60px auto;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        padding: 40px 30px;
+        text-align: center;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-icon {
+        font-size: 64px;
+        animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+        0% { transform: scale(0.7); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .experience-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 25px;
+    }
+
+    .details {
+        text-align: left;
+        padding: 0 10px;
+    }
+
+    .details p {
+        margin: 10px 0;
+        font-size: 15px;
+        color: #444;
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #888;
+    }
+
+    .btn {
+        margin-top: 25px;
+        padding: 12px 20px;
+        background-color: #4BB543;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn:hover {
+        background-color: #3aa333;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            margin: 20px;
+            padding: 25px 20px;
+        }
+
+        .details p {
+            font-size: 14px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="success-icon">🎁</div>
+  <h1>¡Canje exitoso!</h1>
+  <div class="experience-title" id="experienceTitle">...</div>
+
+  <div class="details">
+    <p>📍 <span class="highlight">Ciudad:</span> <span id="city">...</span></p>
+    <p>🏷️ <span class="highlight">Proveedor:</span> <span id="providerName">...</span></p>
+    <p>📞 <span class="highlight">Contacto:</span> <span id="contact">...</span></p>
+    <p>📌 <span class="highlight">Condiciones:</span> <span id="conditions">...</span></p>
+    <p>🎫 <span class="highlight">Válido hasta:</span> <span id="expirationDate">...</span></p>
+    <p>🌐 <span class="highlight">¿Reservación online?:</span> <span id="onlineReservation">...</span></p>
+  </div>
+
+  <a href="/experiencias.html" class="btn">Ver más experiencias</a>
+
+  <div class="footer">
+    Gracias por elegir <strong>Momenta</strong> ✨
+  </div>
+</div>
+
+<script>
+  const data = JSON.parse(localStorage.getItem("lastRedemption"));
+
+  if (!data) {
+      document.body.innerHTML = "<h2 style='color:red; text-align:center;'>No hay datos para mostrar. El canje puede haber fallado o ya fue usado.</h2>";
+  } else {
+      document.getElementById("experienceTitle").innerText = data.experienceTitle;
+      document.getElementById("city").innerText = data.city;
+      document.getElementById("providerName").innerText = data.providerName;
+      document.getElementById("contact").innerText = data.contact;
+      document.getElementById("conditions").innerText = data.conditions;
+      document.getElementById("expirationDate").innerText = data.expirationDate;
+      document.getElementById("onlineReservation").innerText = data.onlineReservation ? "Sí" : "No";
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tu experiencia</title>
+  <style>
+    body {
+        font-family: sans-serif;
+        padding: 40px;
+        text-align: center;
+    }
+    img {
+        width: 300px;
+        border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+<h1>🌟 Tu experiencia está lista 🌟</h1>
+<div id="experienceInfo">Cargando...</div>
+
+<script>
+  const code = new URLSearchParams(window.location.search).get("code");
+
+  async function fetchExperience() {
+      const res = await fetch(`/api/gift-messages/${code}`);
+      const data = await res.json();
+      const container = document.getElementById("experienceInfo");
+
+      // Aquí asumimos que ya fue canjeado y tiene una experiencia asignada
+      if (data.experience) {
+          container.innerHTML = `
+              <h2>${data.experience.name}</h2>
+              <p>${data.experience.description || '¡Prepárate para disfrutar algo único!'}</p>
+              <img src="${data.experience.imageUrl || 'https://i.imgur.com/7D7I6dI.jpeg'}" alt="Experiencia">
+          `;
+      } else {
+          container.innerHTML = "<p>Aún no se ha canjeado una experiencia.</p>";
+      }
+  }
+
+  fetchExperience();
+</script>
+</body>
+</html>
